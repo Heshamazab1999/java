@@ -10,4 +10,6 @@ module JavaProject {
     requires java.sql;
 
     opens sample;
+
+
 }
