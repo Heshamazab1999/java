@@ -4,8 +4,6 @@ import connectivity.connection;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import javax.swing.*;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
@@ -310,7 +309,7 @@ public class Controller implements Initializable {
 
     @FXML
     private Button glucose;
-//---------------------------to take list from model database ---------------------------------------//
+    //---------------------------to take list from model database ---------------------------------------//
     ObservableList<select> listM;
     ObservableList<selectdata> listdata;
     ObservableList<selectweight> listdataweight;
@@ -323,170 +322,14 @@ public class Controller implements Initializable {
         ObservableList<String> list2 = FXCollections.observableArrayList("After", "Before");
         combo1.setItems(list1);
         combo2.setItems(list2);
-        //----------------------intialize presser---------------------//
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        systolic.setCellValueFactory(new PropertyValueFactory<>("systolic"));
-        diastolic.setCellValueFactory(new PropertyValueFactory<>("diastolic"));
-        pulse.setCellValueFactory(new PropertyValueFactory<>("peripulseod"));
-        historypressure_date.setCellValueFactory(new PropertyValueFactory<>("historypressure_date"));
-        listM = connection.getDatausers();
-        pressure_table.setItems(listM);
-//----------------------------------insert glucose table------------------------------//
-        number.setCellValueFactory(new PropertyValueFactory<>("id"));
-        value.setCellValueFactory(new PropertyValueFactory<>("systolic"));
-        meal.setCellValueFactory(new PropertyValueFactory<>("diastolic"));
-        period.setCellValueFactory(new PropertyValueFactory<>("peripulseod"));
-        historical_date.setCellValueFactory(new PropertyValueFactory<>("historypressure_date"));
-        listdata = connection.getData();
-        glucose_table.setItems(listdata);
-        //-----------------------------------insert weight table----------------------------------------------//
-        weight_state.setCellValueFactory(new PropertyValueFactory<>("id"));
-        WeightHistory.setCellValueFactory(new PropertyValueFactory<>("systolic"));
-        height.setCellValueFactory(new PropertyValueFactory<>("diastolic"));
-        historyweight_date.setCellValueFactory(new PropertyValueFactory<>("historypressure_date"));
-        listdataweight = connection.getDataweight();
-        weight_table.setItems(listdataweight);
-        //-------------------------------- insert medicine table----------------------------------------//
-        MedicineHistory.setCellValueFactory(new  PropertyValueFactory<>("id"));
-        listdatamedicine = connection.getmedicine();
-        medicine_table.setItems(listdatamedicine);
-        //--------------------------------insert notes table---------------------------------------------------------//
-        NotesHistory.setCellValueFactory(new  PropertyValueFactory<>("id"));
-        listnotes = connection.getnotes();
-        notes_table.setItems(listnotes);
 
-
+//-------------------------------------------------insert tables----------------------------//
+        insertPresserTable();
+        insertGlucoseTable();
+        insertNotesTable();
+        insertMedicineTable();
+        insertWeightTable();
     }
-
-
-    public static class select {
-
-        SimpleStringProperty id, systolic, diastolic, peripulseod, historypressure_date;
-
-        public select(String id, String systolic, String diastolic, String peripulseod, String historypressure_date) {
-            this.id = new SimpleStringProperty(id);
-            this.systolic = new SimpleStringProperty(systolic);
-            this.diastolic = new SimpleStringProperty(diastolic);
-            this.peripulseod = new SimpleStringProperty(peripulseod);
-            this.historypressure_date = new SimpleStringProperty(historypressure_date);
-
-        }
-
-        public String getId() {
-            return id.get();
-        }
-
-        public String getSystolic() {
-            return systolic.get();
-        }
-
-        public String getDiastolic() {
-            return diastolic.get();
-        }
-
-        public String getPeripulseod() {
-            return peripulseod.get();
-        }
-
-        public String getHistorypressure_date() {
-            return historypressure_date.get();
-        }
-
-
-    }
-    public static class selectMedicine {
-
-        SimpleStringProperty id;
-
-        public selectMedicine(String id) {
-            this.id = new SimpleStringProperty(id);
-
-        }
-
-        public String getId() {
-            return id.get();
-        }
-
-    }
-    public static class selectweight {
-
-        SimpleStringProperty id, systolic, diastolic, historypressure_date;
-
-        public selectweight(String id, String systolic, String diastolic, String historypressure_date) {
-            this.id = new SimpleStringProperty(id);
-            this.systolic = new SimpleStringProperty(systolic);
-            this.diastolic = new SimpleStringProperty(diastolic);
-            this.historypressure_date = new SimpleStringProperty(historypressure_date);
-
-        }
-
-        public String getId() {
-            return id.get();
-        }
-
-        public String getSystolic() {
-            return systolic.get();
-        }
-
-        public String getDiastolic() {
-            return diastolic.get();
-        }
-
-        public String getHistorypressure_date() {
-            return historypressure_date.get();
-        }
-
-
-    }
-    public static class selectdata {
-
-        SimpleStringProperty id, systolic, diastolic, peripulseod, historypressure_date;
-
-        public selectdata(String id, String systolic, String diastolic, String peripulseod, String historypressure_date) {
-            this.id = new SimpleStringProperty(id);
-            this.systolic = new SimpleStringProperty(systolic);
-            this.diastolic = new SimpleStringProperty(diastolic);
-            this.peripulseod = new SimpleStringProperty(peripulseod);
-            this.historypressure_date = new SimpleStringProperty(historypressure_date);
-
-        }
-
-        public String getId() {
-            return id.get();
-        }
-
-        public String getSystolic() {
-            return systolic.get();
-        }
-
-        public String getDiastolic() {
-            return diastolic.get();
-        }
-
-        public String getPeripulseod() {
-            return peripulseod.get();
-        }
-
-        public String getHistorypressure_date() {
-            return historypressure_date.get();
-        }
-
-
-    }
-    public static class SelectNotes {
-
-        SimpleStringProperty id;
-
-        public SelectNotes(String id) {
-            this.id = new SimpleStringProperty(id);
-        }
-
-        public String getId() {
-            return id.get();
-        }
-    }
-
-
 
     @FXML
     void click(ActionEvent event) throws SQLException {
@@ -544,7 +387,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO  pressure (id ,systolic,diastolic,heartrate,date) VALUES ('80','" + Blood_txt1.getText() + "','" + blood_txt2.getText() + "','" + heart_txt.getText() + "','" + value + "')";
+            String sql = "INSERT INTO  pressure (systolic,diastolic,heartrate,date) VALUES ('" + Blood_txt1.getText() + "','" + blood_txt2.getText() + "','" + heart_txt.getText() + "','" + value + "')";
             statement.executeUpdate(sql);
         }
 
@@ -555,7 +398,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO  diabetes (id ,value,meal,period,date) VALUES ('30','" + glucose_txt.getText() + "','" + combo1.getValue() + "','" + combo2.getValue() +
+            String sql = "INSERT INTO  diabetes (value,meal,period,date) VALUES ('" + glucose_txt.getText() + "','" + combo1.getValue() + "','" + combo2.getValue() +
                     "','" + value + "')";
             statement.executeUpdate(sql);
         }
@@ -566,7 +409,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO  weight (id ,weight,height,date) VALUES ('20','" + weight_txt.getText() + "','" + Height_txt.getText() + "','" + value + "')";
+            String sql = "INSERT INTO  weight (weight,height,date) VALUES ('" + weight_txt.getText() + "','" + Height_txt.getText() + "','" + value + "')";
             statement.executeUpdate(sql);
 
         }
@@ -579,6 +422,7 @@ public class Controller implements Initializable {
             Statement statement = connection.createStatement();
             String sql = "SELECT * from pressure where systolic IN ('" + pressuresearch_txt.getText() + "')";
             ResultSet set = statement.executeQuery(sql);
+
             while (set.next()) {
                 System.out.println("id :" + set.getInt("systolic"));
 
@@ -590,8 +434,15 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "DELETE FROM pressure  WHERE id IN ('" + pressuresearch_txt.getText() + "')";
-            statement.executeUpdate(sql);
+            try {
+                String sql = "DELETE  FROM pressure where id= '" + pressure_table.getItems().removeAll(pressure_table.getSelectionModel().getSelectedItem()) + "' ";
+                statement.executeUpdate(sql);
+
+            } catch (SQLException exception) {
+                System.out.println(exception);
+            }
+
+
         }
 
         //---------------------------------------to search glocus-----------------------------------//
@@ -600,7 +451,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "SELECT * FROM diabetes  WHERE id IN ('" + glucosesearch_txt.getText() + "')";
+            String sql = "SELECT * FROM diabetes  WHERE value IN ('" + glucosesearch_txt.getText() + "')";
             ResultSet set = statement.executeQuery(sql);
             while (set.next()) {
                 System.out.println("id :" + set.getString("meal"));
@@ -611,7 +462,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "DELETE FROM diabetes  WHERE id IN ('" + glucosesearch_txt.getText() + "')";
+            String sql = "DELETE FROM diabetes  WHERE value IN ('" + glucosesearch_txt.getText() + "')";
             statement.executeUpdate(sql);
         }
         //----------------------------------------to search weight-----------------------------------//
@@ -619,7 +470,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "SELECT * FROM weight  WHERE id IN ('" + weightsearch_txt.getText() + "')";
+            String sql = "SELECT * FROM weight  WHERE height IN ('" + weightsearch_txt.getText() + "')";
             ResultSet set = statement.executeQuery(sql);
             while (set.next()) {
                 System.out.println("id :" + set.getDate("date"));
@@ -629,7 +480,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "DELETE FROM weight  WHERE id IN ('" + weightsearch_txt.getText() + "')";
+            String sql = "DELETE FROM weight  WHERE height IN ('" + weightsearch_txt.getText() + "')";
             statement.executeUpdate(sql);
         }
 
@@ -659,7 +510,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "delete from medicine order by medicine asc limit 1" ;
+            String sql = "delete from medicine order by medicine asc limit 1";
             statement.executeUpdate(sql);
         }
         //------------------------------------to delete notes----------------------//
@@ -667,7 +518,7 @@ public class Controller implements Initializable {
             connection con = new connection();
             Connection connection = con.getconnection();
             Statement statement = connection.createStatement();
-            String sql = "delete from notes order by notes asc limit 1" ;
+            String sql = "delete from notes order by notes asc limit 1";
             statement.executeUpdate(sql);
         }
 
@@ -690,7 +541,6 @@ public class Controller implements Initializable {
 
     @FXML
     void pressure(ActionEvent event) {
-
     }
 
     @FXML
@@ -701,6 +551,178 @@ public class Controller implements Initializable {
     public void clic(MouseEvent mouseEvent) {
 
 
+    }
+
+    public void insertPresserTable() {
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        systolic.setCellValueFactory(new PropertyValueFactory<>("systolic"));
+        diastolic.setCellValueFactory(new PropertyValueFactory<>("diastolic"));
+        pulse.setCellValueFactory(new PropertyValueFactory<>("peripulseod"));
+        historypressure_date.setCellValueFactory(new PropertyValueFactory<>("historypressure_date"));
+        listM = connection.getDatausers();
+        pressure_table.setItems(listM);
+    }
+
+    public void insertGlucoseTable() {
+        number.setCellValueFactory(new PropertyValueFactory<>("id"));
+        value.setCellValueFactory(new PropertyValueFactory<>("systolic"));
+        meal.setCellValueFactory(new PropertyValueFactory<>("diastolic"));
+        period.setCellValueFactory(new PropertyValueFactory<>("peripulseod"));
+        historical_date.setCellValueFactory(new PropertyValueFactory<>("historypressure_date"));
+        listdata = connection.getData();
+        glucose_table.setItems(listdata);
+    }
+
+    public void insertWeightTable() {
+        weight_state.setCellValueFactory(new PropertyValueFactory<>("id"));
+        WeightHistory.setCellValueFactory(new PropertyValueFactory<>("systolic"));
+        height.setCellValueFactory(new PropertyValueFactory<>("diastolic"));
+        historyweight_date.setCellValueFactory(new PropertyValueFactory<>("historypressure_date"));
+        listdataweight = connection.getDataweight();
+        weight_table.setItems(listdataweight);
+    }
+
+    public void insertMedicineTable() {
+        MedicineHistory.setCellValueFactory(new PropertyValueFactory<>("id"));
+        listdatamedicine = connection.getmedicine();
+        medicine_table.setItems(listdatamedicine);
+    }
+
+    public void insertNotesTable() {
+        NotesHistory.setCellValueFactory(new PropertyValueFactory<>("id"));
+        listnotes = connection.getnotes();
+        notes_table.setItems(listnotes);
+    }
+
+    public static class select {
+
+        SimpleStringProperty id, systolic, diastolic, peripulseod, historypressure_date;
+
+        public select(String id, String systolic, String diastolic, String peripulseod, String historypressure_date) {
+            this.id = new SimpleStringProperty(id);
+            this.systolic = new SimpleStringProperty(systolic);
+            this.diastolic = new SimpleStringProperty(diastolic);
+            this.peripulseod = new SimpleStringProperty(peripulseod);
+            this.historypressure_date = new SimpleStringProperty(historypressure_date);
+
+        }
+
+        public String getId() {
+            return id.get();
+        }
+
+        public String getSystolic() {
+            return systolic.get();
+        }
+
+        public String getDiastolic() {
+            return diastolic.get();
+        }
+
+        public String getPeripulseod() {
+            return peripulseod.get();
+        }
+
+        public String getHistorypressure_date() {
+            return historypressure_date.get();
+        }
+
+
+    }
+
+    public static class selectMedicine {
+
+        SimpleStringProperty id;
+
+        public selectMedicine(String id) {
+            this.id = new SimpleStringProperty(id);
+
+        }
+
+        public String getId() {
+            return id.get();
+        }
+
+    }
+
+    public static class selectweight {
+
+        SimpleStringProperty id, systolic, diastolic, historypressure_date;
+
+        public selectweight(String id, String systolic, String diastolic, String historypressure_date) {
+            this.id = new SimpleStringProperty(id);
+            this.systolic = new SimpleStringProperty(systolic);
+            this.diastolic = new SimpleStringProperty(diastolic);
+            this.historypressure_date = new SimpleStringProperty(historypressure_date);
+
+        }
+
+        public String getId() {
+            return id.get();
+        }
+
+        public String getSystolic() {
+            return systolic.get();
+        }
+
+        public String getDiastolic() {
+            return diastolic.get();
+        }
+
+        public String getHistorypressure_date() {
+            return historypressure_date.get();
+        }
+
+
+    }
+
+    public static class selectdata {
+
+        SimpleStringProperty id, systolic, diastolic, peripulseod, historypressure_date;
+
+        public selectdata(String id, String systolic, String diastolic, String peripulseod, String historypressure_date) {
+            this.id = new SimpleStringProperty(id);
+            this.systolic = new SimpleStringProperty(systolic);
+            this.diastolic = new SimpleStringProperty(diastolic);
+            this.peripulseod = new SimpleStringProperty(peripulseod);
+            this.historypressure_date = new SimpleStringProperty(historypressure_date);
+
+        }
+
+        public String getId() {
+            return id.get();
+        }
+
+        public String getSystolic() {
+            return systolic.get();
+        }
+
+        public String getDiastolic() {
+            return diastolic.get();
+        }
+
+        public String getPeripulseod() {
+            return peripulseod.get();
+        }
+
+        public String getHistorypressure_date() {
+            return historypressure_date.get();
+        }
+
+
+    }
+
+    public static class SelectNotes {
+
+        SimpleStringProperty id;
+
+        public SelectNotes(String id) {
+            this.id = new SimpleStringProperty(id);
+        }
+
+        public String getId() {
+            return id.get();
+        }
     }
 }
 
